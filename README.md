@@ -8,3 +8,5 @@ Instructions to run the project:
 4. Activate the environment in terminal by running 'conda activate django' if Windows. Else, 'source activate django' if Mac.
 5. Import the contact_details.sql file into local running MySQL server using MySQL Workbench or XAMPP.
 6. Run 'python manage.py runserver' to start the Django server. And open the browser https://localhost:8000
+
+Used MDB Bootstrap templates for developing the project.
