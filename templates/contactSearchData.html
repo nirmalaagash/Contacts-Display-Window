@@ -1,0 +1,214 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="container">
+        <form class="text-center" style="color: #757575;" action="{% url 'contactSearchData' %}" method="POST">
+            {% csrf_token %}
+            <p>Enter the Search term</p>
+                <input type="text" required name="Search" id="materialRegisterFormFirstName" class="form-control">
+            <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Search</button>
+        </form>
+    </div>
+<h3>Search Details for "{{ search }}" in the Database </h3>
+    <br>
+    <div>
+        <div>
+            <h5><span class="badge badge-pill indigo"><i class="fas fa-bullhorn" aria-hidden="true"></i> Please hover over the cells and click to modify its value. To delete, type <span class="badge badge-pill badge-danger">delete</span> after clicking on the cell.
+            To Modify/Delete the complete row elements, click <span class="badge badge-pill badge-dark">Modify</span> or <span class="badge badge-pill badge-dark">Delete</span></span></h5>
+        </div>
+        <br>
+        <table id="myTableSearch" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th></th>
+                <th> Name </th>
+                <th> Address </th>
+                <th> Phone </th>
+                <th> Date </th>
+            </tr>
+            </thead>
+        {% for key,value in Result.items %}
+            <tr>
+                <!--<h4> Contact Details of Contact - {{key}} , {{ value.fname }} </h4>-->
+                    <td>
+                        <form action="{% url 'modifyData' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="contact_id" value={{ key }}>
+                            <input type="submit" class="btn btn-black btn-sm m-0" value="Modify">
+                        </form>
+                        <br>
+                        <form action="{% url 'deleteData' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="contact_id" value={{ key }}>
+                            <input type="submit" class="btn btn-black btn-sm m-0" value="Delete">
+                        </form>
+                    </td>
+                    <td>
+                        <table class="table-bordered" border="0" width = "100%">
+                            <thead class="grey lighten-2">
+                                <tr>
+                                    <th>
+                                        Contact ID
+                                    </th>
+                                    <th>
+                                        First Name
+                                    </th>
+                                    <th>
+                                        Middle Name
+                                    </th>
+                                    <th>
+                                        Last Name
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td class="link" id="contact_{{ key }}_Contact_id" rowspan={{ value.l }}>
+                                    {{key}}
+                                </td>
+                                <td class="link" id="contact_{{ key }}_Fname" rowspan={{ value.l }} onclick="replyClick('contact',{{key}},'Fname')">
+                                    {{ value.fname }}
+                                </td>
+                                <td class="link" id="contact_{{ key }}_Mname" rowspan={{ value.l }} onclick="replyClick('contact',{{key}},'Mname')">
+                                    {{ value.mname }}
+                                </td>
+                                <td class="link" id="contact_{{ key }}_Lname" rowspan={{ value.l }} onclick="replyClick('contact',{{key}},'Lname')">
+                                    {{ value.lname }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <table class="table-bordered" width = "100%">
+                            <thead class="grey lighten-2">
+                                <tr>
+                                    <th>
+                                        Address Type
+                                    </th>
+                                    <th>
+                                        Address
+                                    </th>
+                                    <th>
+                                        City
+                                    </th>
+                                    <th>
+                                        State
+                                    </th>
+                                    <th>
+                                        Zip
+                                    </th>
+                                </tr>
+                            </thead>
+                            {% for address in value.addresses %}
+                            </th>
+                            <tr>
+                                <td class="link" id="address_{{ address.Address_id }}_Address_type" onclick="replyClick('address',{{address.Address_id}},'Address_type')">
+                                    {{address.Address_type}}
+                                </td>
+                                <td class="link" id="address_{{ address.Address_id }}_Address" onclick="replyClick('address',{{address.Address_id}},'Address')">
+                                    {{address.Address}}
+                                </td>
+                                <td class="link" id="address_{{ address.Address_id }}_City" onclick="replyClick('address',{{address.Address_id}},'City')">
+                                    {{address.City}}
+                                </td>
+                                <td class="link" id="address_{{ address.Address_id }}_State" onclick="replyClick('address',{{address.Address_id}},'State')">
+                                    {{address.State}}
+                                </td>
+                                <td class="link" id="address_{{ address.Address_id }}_Zip" onclick="replyClick('address',{{address.Address_id}},'Zip')">
+                                    {{address.zip}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </td>
+                    <td>
+                        <table class="header table-bordered" width = "100%">
+                            <thead class="grey lighten-2">
+                                <tr>
+                                    <th>
+                                        Phone Type
+                                    </th>
+                                    <th>
+                                        Area Code
+                                    </th>
+                                    <th>
+                                        Number
+                                    </th>
+                                </tr>
+                            </thead>
+                            {% for phone in value.phones %}
+
+                            <tr>
+                                <td class="link" id="phone_{{ phone.Phone_id }}_Phone_type" onclick="replyClick('phone',{{phone.Phone_id}},'Phone_type')">
+                                    {{ phone.Phone_type }}
+                                </td>
+                                <td class="link" id="phone_{{ phone.Phone_id }}_Area_code" onclick="replyClick('phone',{{phone.Phone_id}},'Area_code')">
+                                    {{ phone.Area_code }}
+                                </td>
+                                <td class="link" id="phone_{{ phone.Phone_id }}_Number" onclick="replyClick('phone',{{phone.Phone_id}},'Number')">
+                                    {{ phone.Number }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </td>
+                    <td>
+                        <table class="header table-bordered" width = "100%">
+                            <thead class="grey lighten-2">
+                                <tr>
+                                    <th>
+                                        Date Type
+                                    </th>
+                                    <th>
+                                        Date
+                                    </th>
+                                </tr>
+                            </thead>
+                            {% for date in value.dates %}
+                            <tr>
+                                <td class="link" id="date_{{ date.Date_id }}_Date_type" onclick="replyClick('date',{{date.Date_id}},'Date_type')">
+                                    {{ date.Date_type }}
+                                </td>
+                                <td class="link" id="date_{{ date.Date_id }}_Date" onclick="replyClick('date',{{date.Date_id}},'Date')">
+                                    {{ date.date }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+ <style>
+    td{
+        vertical-align: top;
+    }
+
+    .link:hover {
+      cursor: pointer;
+     }
+ </style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    function replyClick(table_name,key,field_name){
+        var newValue = prompt("Please enter the new value to modify. To delete, type 'delete' (This deletes the entire row and related elements.)");
+        if (newValue.length > 0){
+            $.ajax(
+            {
+                type:"GET",
+                url: "/changeData",
+                data:{
+                       'table' : table_name,
+                       'key' : key,
+                       'field_name': field_name,
+                       'newValue' : newValue
+                },
+                success: function( data )
+                {
+                    window.location.href = '/'
+                }
+            })
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends "header.html" %}
+
+{% block content %}
+<h3>Modify the Contact - {{ Result.fname }}</h3>
+    <div class="container" style="height:100px;">
+        <div class="col text-center">
+            <div class="card">
+                <div class="card-body px-lg-5 pt-0">
+                    <form class="text-center" style="color: #757575;" action="{% url 'modifiedData' %}" method="POST">
+                       {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col">
+                                <!-- First name -->
+                                <div class="md-form">
+                                    <input type="hidden" name="contact_id" value={{ Result.contact_id }}>
+                                    <label>First name</label>
+                                    <input type="text" name="FirstName" id="materialRegisterFormFirstName" class="form-control" value="{{Result.fname}}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <!-- Middle name -->
+                                <div class="md-form">
+                                    <label>Middle name</label>
+                                    <input type="text" name="MiddleName" id="materialRegisterFormMiddleName" class="form-control" value="{{Result.mname}}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <!-- Last name -->
+                                <div class="md-form">
+                                    <label>Last name</label>
+                                    <input type="text" name="LastName" id="materialRegisterFormLastName" class="form-control" value="{{Result.lname}}">
+                                </div>
+                            </div>
+                        </div>
+                        <p> Address Field </p>
+                        {% for address in Result.address %}
+                        <div class="form-row">
+                            <table class="table" id = "AddressTable">
+                                <tbody>
+                                    <tr>
+                                        <input type="hidden" name="address_id" value={{ address.address_id }}>
+                                        <td>
+                                            <select name="AddressType" class="browser-default custom-select">
+                                              <option selected>{{address.address_type}}</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                           <input type="text" placeholder="Street Address" name="StreetAddress" id="materialRegisterFormStreetAddress" class="form-control" value="{{address.address}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="City" name="City" id="materialRegisterFormCity" class="form-control" value="{{address.city}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="State" required name="State" id="materialRegisterFormState" class="form-control" value="{{address.state}}">
+                                        </td>
+                                        <td>
+                                            <input type="number" placeholder="ZipCode" required name="Zip" id="materialRegisterFormZipCode" class="form-control" value="{{address.zip}}">
+                                        </td>
+                                    </tr>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        {% endfor %}
+                        <p> Phone Field </p>
+                        {% for phone in Result.phone %}
+
+                        <!-- Phone number -->
+                        <div class="form-row">
+
+                            <table class="table" id = "PhoneTable">
+                              <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="hidden" name="phone_id" value={{ phone.phone_id }}>
+                                        <select name="PhoneType" class="browser-default custom-select" id="numberType">
+                                          <option selected>{{ phone.phone_type }}</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" placeholder="Area" name="Area" id="materialRegisterFormAreaCode" class="form-control" value="{{phone.area_code}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" placeholder="Number" name="Number" id="materialRegisterFormPhoneNumber" class="form-control" value="{{phone.number}}">
+                                    </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                        {% endfor %}
+                        <p> Date Field </p>
+                        {% for date in Result.date %}
+                        <!-- Date List -->
+                        <div class="form-row">
+
+                            <table class="table" id = "DateTable">
+                              <tbody>
+                                <tr>
+                                  <td style="text-align:center">
+                                    <input type="hidden" name="date_id" value={{ date.date_id }}>
+                                    <select name="DateType" class="browser-default custom-select" id="addressType">
+                                      <option selected>{{ date.date_type }}</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                    <input type="text" class="form-control datepicker" placeholder="Select a date" name="selected_date" id="datepicker" value="{{date.date}}"/>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                        {% endfor %}
+                        <button class="btn btn-blue-grey btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit" >Modify</button>
+                        <hr>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

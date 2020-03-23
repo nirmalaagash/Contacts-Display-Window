@@ -1,0 +1,193 @@
+{% extends "header.html" %}
+
+{% block content %}
+<h3>Add a Contact</h3>
+    <div class="container" style="height:100px;">
+        <div class="col text-center">
+            <div class="card">
+                <div class="card-body px-lg-5 pt-0">
+                    <form class="text-center" style="color: #757575;" action="{% url 'contactAdded' %}" method="POST">
+                       {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col">
+                                <!-- First name -->
+                                <div class="md-form">
+                                    <input type="text" required name="FirstName" id="materialRegisterFormFirstName" class="form-control">
+                                    <label for="materialRegisterFormFirstName">First name</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <!-- Middle name -->
+                                <div class="md-form">
+                                    <input type="text" required name="MiddleName" id="materialRegisterFormMiddleName" class="form-control">
+                                    <label for="materialRegisterFormMiddleName">Middle name</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <!-- Last name -->
+                                <div class="md-form">
+                                    <input type="text" required name="LastName" id="materialRegisterFormLastName" class="form-control">
+                                    <label for="materialRegisterFormLastName">Last name</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <p> Address Field </p>
+                            <table class="table" id = "AddressTable">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <select name="AddressType" class="browser-default custom-select">
+                                              <option selected>Home Address</option>
+                                              <option value="Work Address">Work Address</option>
+                                              <option value="Other">Other</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                           <input type="text" placeholder="Street Address" required name="StreetAddress" id="materialRegisterFormStreetAddress" class="form-control">
+                                        </td>
+                                        <td>
+                                            <input type="text" required placeholder="City" name="City" id="materialRegisterFormCity" class="form-control">
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="State" required name="State" id="materialRegisterFormState" class="form-control">
+                                        </td>
+                                        <td>
+                                            <input type="number" placeholder="ZipCode" required name="Zip" id="materialRegisterFormZipCode" class="form-control">
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-elegant btn-sm" onclick="addressCreateFunction()"><i class="fas fa-plus"></i> Add</button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-elegant btn-sm" onclick="addressDeleteFunction()"><i class="fas fa-minus"></i> Delete</button>
+                                        </td>
+                                    </tr>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Phone number -->
+                        <div class="form-row">
+                            <p> Phone Field </p>
+                            <table class="table" id = "PhoneTable">
+                              <tbody>
+                                <tr>
+                                    <td>
+                                        <select name="PhoneType" class="browser-default custom-select" id="numberType">
+                                          <option selected>Home Phone</option>
+                                          <option value="Cell Phone">Cell Phone</option>
+                                          <option value="Work Phone">Work Phone</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" placeholder="Area" required name="Area" id="materialRegisterFormAreaCode" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input type="text" required placeholder="Number" name="Number" id="materialRegisterFormPhoneNumber" class="form-control">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-elegant btn-sm" onclick="phoneCreateFunction()"><i class="fas fa-plus"></i> Add</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-elegant btn-sm" onclick="phoneDeleteFunction()"><i class="fas fa-minus"></i> Delete</button>
+                                    </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Date List -->
+                        <div class="form-row">
+                            <p> Date Field </p>
+                            <table class="table" id = "DateTable">
+                              <tbody>
+                                <tr>
+                                  <td style="text-align:center">
+                                    <select name="DateType" class="browser-default custom-select" id="addressType">
+                                      <option selected>DOB</option>
+                                      <option value="Other">Other</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                    <input type="text" class="form-control datepicker" placeholder="Select a date" name="selected_date" id="datepicker"/>
+                                  </td>
+                                    <td>
+                                      <button type="button" class="btn btn-elegant btn-sm" onclick="dateCreateFunction()"><i class="fas fa-plus"></i> Add</button>
+                                    </td>
+                                    <td>
+                                      <button type="button" class="btn btn-elegant btn-sm" onclick="dateDeleteFunction()"><i class="fas fa-minus"></i> Delete</button>
+                                    </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-blue-grey btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit" >Add</button>
+                        <hr>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+function addressCreateFunction(){
+    var table = document.getElementById("AddressTable");
+    var row = table.insertRow(-1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+    var cell7 = row.insertCell(6);
+    cell1.innerHTML = '<select name="AddressType" class="browser-default custom-select"><option selected>Home</option><option value="1">Work</option><option value="2">Other</option></select>'
+    cell2.innerHTML = '<input type="text" placeholder="Street Address" required name="StreetAddress" id="materialRegisterFormStreetAddress" class="form-control">'
+    cell3.innerHTML = '<input type="text" required placeholder="City" name="City" id="materialRegisterFormCity" class="form-control">'
+    cell4.innerHTML = '<input type="text" placeholder="State" required name="State" id="materialRegisterFormState" class="form-control">'
+    cell5.innerHTML = '<input type="number" placeholder="ZipCode" required name="Zip" id="materialRegisterFormZipCode" class="form-control">'
+}
+function addressDeleteFunction(){
+    var len = document.getElementById("AddressTable").rows.length;
+    if(len>1)
+        document.getElementById("AddressTable").deleteRow(-1);
+}
+function dateCreateFunction() {
+  var table = document.getElementById("DateTable");
+  var row = table.insertRow(-1);
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1);
+  var cell3 = row.insertCell(2);
+  var cell4 = row.insertCell(3);
+  cell1.innerHTML = '<select name="DateType" class="browser-default custom-select" id="addressType"><option selected>Home</option><option value="1">Work</option><option value="2">Other</option></select>';
+  cell2.innerHTML = '<input type="text" class="form-control datepicker" placeholder="Select a date" name="selected_date" id="datepicker"/>';
+}
+
+function dateDeleteFunction() {
+    var len = document.getElementById("DateTable").rows.length;
+    if(len>1)
+        document.getElementById("DateTable").deleteRow(-1);
+}
+
+function phoneCreateFunction() {
+  var table = document.getElementById("PhoneTable");
+  var row = table.insertRow(-1);
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1);
+  var cell3 = row.insertCell(2);
+  var cell4 = row.insertCell(3);
+  var cell5 = row.insertCell(4);
+  cell1.innerHTML = '<select name="PhoneType" class="browser-default custom-select" id="numberType"><option selected>Home</option><option value="1">Work</option><option value="2">Other</option></select>';
+  cell2.innerHTML = '<input type="text" placeholder="Area" required name="Area" id="materialRegisterFormAreaCode" class="form-control">';
+  cell3.innerHTML = '<input type="text" required placeholder="Number" name="Number" id="materialRegisterFormPhoneNumber" class="form-control">';
+}
+
+function phoneDeleteFunction() {
+    var len = document.getElementById("PhoneTable").rows.length;
+    if(len>1)
+        document.getElementById("PhoneTable").deleteRow(-1);
+}
+
+</script>
+{% endblock %}

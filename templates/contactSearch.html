@@ -1,0 +1,13 @@
+{% extends "header.html" %}
+
+{% block content %}
+    <div class="container">
+        <br>
+        <form class="text-center" style="color: #757575;" action="{% url 'contactSearchData' %}" method="POST">
+            {% csrf_token %}
+            <p>Enter the Search term</p>
+                <input type="text" required name="Search" id="materialRegisterFormFirstName" class="form-control">
+            <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Search</button>
+        </form>
+    </div>
+{% endblock %}
